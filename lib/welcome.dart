@@ -30,6 +30,13 @@ class _WelcomeState extends State<WelcomePage> {
     final height = size.height;
     return WillPopScope(
       child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(kToolbarHeight),
+            child: SafeArea(
+              top: true,
+              child: Offstage(),
+            ),
+          ),
           body: Container(
               width: width,
               height: height,

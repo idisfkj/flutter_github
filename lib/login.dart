@@ -13,8 +13,12 @@ class _LoginState extends State<LoginPage> {
     return MaterialApp(
       title: 'Login',
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Login'),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: SafeArea(
+            top: true,
+            child: Offstage(),
+          ),
         ),
         body: Text('Login Page'),
       ),
