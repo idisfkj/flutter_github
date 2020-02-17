@@ -28,13 +28,17 @@ class _WelcomeState extends State<WelcomePage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-
-    return new Scaffold(
-        body: Container(
-            width: width,
-            height: height,
-            child: GestureDetector(
-              child: Image.asset('images/app_welcome.png'),
-            )));
+    return WillPopScope(
+      child: Scaffold(
+          body: Container(
+              width: width,
+              height: height,
+              child: GestureDetector(
+                child: Image.asset('images/app_welcome.png'),
+              ))),
+      onWillPop: () {
+        return Future.value(false);
+      },
+    );
   }
 }
