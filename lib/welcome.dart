@@ -18,7 +18,7 @@ class _WelcomeState extends State<WelcomePage> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(milliseconds: 3000), () {
+    Timer(const Duration(milliseconds: 1500), () {
       _goToLogin();
     });
   }
