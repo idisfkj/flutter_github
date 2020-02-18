@@ -1,4 +1,12 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/constants.dart';
+import 'package:flutter_github/http/http.dart';
+import 'package:flutter_github/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,9 +27,41 @@ class _LoginState extends State<LoginPage> {
     if (_username.trim().isEmpty || _password.trim().isEmpty) {
       return null;
     } else {
-      return () {};
+      return () {
+        _saveUserInfo();
+      };
     }
   }
+
+  _saveUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(SP_USER_NAME, _username);
+    await prefs.setString(SP_PASSWORD, _password);
+    await prefs.setString(SP_AUTHORIZATION,
+        base64Encode(ascii.encode(_username + ':' + _password)));
+    _getUser();
+  }
+
+  _getUser() async {
+    try {
+      Response response = await dio.get('/user');
+      print(UserModel.fromJson(response.data).name);
+    } on DioError catch (e) {
+      print('getUser error: ${e.message}');
+    }
+  }
+
+  _authorization() {
+    return () async {
+      if (await canLaunch(URL_AUTHORIZATION)) {
+        await launch(URL_AUTHORIZATION);
+      } else {
+        throw 'Can not launch $URL_AUTHORIZATION)';
+      }
+    };
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +165,7 @@ class _LoginState extends State<LoginPage> {
                         style: TextStyle(fontSize: 16.0),
                       ),
                       textColor: Colors.white,
-                      onPressed: () {},
+                      onPressed: _authorization(),
                     ))
               ],
             ),

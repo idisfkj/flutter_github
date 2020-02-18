@@ -14,12 +14,13 @@ class _GithubAppState extends State<GithubApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Github',
-        theme: ThemeData.light(),
-        initialRoute: AppRoutes.welcomeRoute,
-        routes: {
-          AppRoutes.welcomeRoute: (BuildContext context) => WelcomePage(),
-          AppRoutes.loginRoute: (BuildContext context) => LoginPage()
-        });
+      title: 'Flutter Github',
+      theme: ThemeData.light(),
+      initialRoute: AppRoutes.welcomeRoute,
+      routes: {
+        AppRoutes.welcomeRoute: (BuildContext context) => WelcomePage(),
+        AppRoutes.loginRoute: (BuildContext context) => LoginPage()
+      },
+    );
   }
 }
