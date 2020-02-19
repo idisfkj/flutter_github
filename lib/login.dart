@@ -58,7 +58,9 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
   _authorization() {
     return () async {
       if (await canLaunch(URL_AUTHORIZATION)) {
-        await launch(URL_AUTHORIZATION);
+        // 为设置forceSafariVC，IOS 默认会打开APP内部WebView
+        // 而APP内部WebView不支持重定向跳转到APP
+        await launch(URL_AUTHORIZATION, forceSafariVC: false);
       } else {
         throw 'Can not launch $URL_AUTHORIZATION)';
       }
@@ -91,6 +93,7 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
       final code = await platform.invokeMethod(CALL_LOGIN_CODE);
       if (code != null) {
         Toast.show('login success: $code', context);
+        print('login success: $code');
       }
     }
   }
