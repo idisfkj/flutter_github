@@ -32,6 +32,7 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
       return null;
     } else {
       return () {
+        FocusScope.of(context).requestFocus(FocusNode());
         _saveUserInfo();
       };
     }
@@ -49,14 +50,16 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
   _getUser() async {
     try {
       Response response = await dio.get('/user');
-      print(UserModel.fromJson(response.data).name);
+      Toast.show('login success! hi ${UserModel.fromJson(response.data).name}',
+          context);
     } on DioError catch (e) {
-      print('getUser error: ${e.message}');
+      Toast.show('getUser error: ${e.message}', context);
     }
   }
 
   _authorization() {
     return () async {
+      FocusScope.of(context).requestFocus(FocusNode());
       if (await canLaunch(URL_AUTHORIZATION)) {
         // 为设置forceSafariVC，IOS 默认会打开APP内部WebView
         // 而APP内部WebView不支持重定向跳转到APP
@@ -92,9 +95,31 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
       final platform = const MethodChannel(METHOD_CHANNEL_NAME);
       final code = await platform.invokeMethod(CALL_LOGIN_CODE);
       if (code != null) {
-        Toast.show('login success: $code', context);
-        print('login success: $code');
+        _getAccessTokenFromCode(code);
       }
+    }
+  }
+
+  _getAccessTokenFromCode(String code) async {
+    try {
+      Dio dio = Dio();
+      dio.options.baseUrl = GITHUB_BASE_URL;
+      dio.options.connectTimeout = 5000;
+      dio.options.receiveTimeout = 3000;
+      Response response = await dio.post('/login/oauth/access_token',
+          data: FormData.fromMap({
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+            'code': code,
+            'redirect_uri': REDIRECT_URI
+          }));
+      final token = response.data.toString().split("=")[1].split("&")[0];
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString(SP_ACCESS_TOKEN, token);
+      await prefs.setString(SP_AUTHORIZATION, '');
+      _getUser();
+    } on DioError catch (e) {
+      Toast.show('getAccessTokenFromCode error: ${e.message}', context);
     }
   }
 

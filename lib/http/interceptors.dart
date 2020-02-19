@@ -7,8 +7,12 @@ class AppInterceptors extends InterceptorsWrapper {
   Future onRequest(RequestOptions options) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authorization = prefs.getString(SP_AUTHORIZATION);
+    String token = prefs.getString(SP_ACCESS_TOKEN);
+    print('authorization: $authorization, token: $token');
     options.headers['Authorization'] =
-        authorization.isNotEmpty ? 'Basic ' + authorization : 'token ' + '';
+        authorization != null && authorization.isNotEmpty
+            ? 'Basic ' + authorization
+            : 'token ' + token;
     print('onRequest: ${options.headers}');
     return options;
   }

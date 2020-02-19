@@ -1,6 +1,7 @@
 const String SP_USER_NAME = 'username';
 const String SP_PASSWORD = 'password';
 const String SP_AUTHORIZATION = 'authorization';
+const String SP_ACCESS_TOKEN = "token";
 
 const String AUTHORIZATION_CODE = 'code';
 const String CLIENT_ID = 'a36f72d09eb4c9ee207a';
