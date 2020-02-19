@@ -7,6 +7,7 @@ import 'package:flutter_github/common/constants.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginPage extends StatefulWidget {
@@ -89,7 +90,7 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
       final platform = const MethodChannel(METHOD_CHANNEL_NAME);
       final code = await platform.invokeMethod(CALL_LOGIN_CODE);
       if (code != null) {
-        print('callLoginCode: $code');
+        Toast.show('login success: $code', context);
       }
     }
   }
