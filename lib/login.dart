@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_github/common/constants.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/user_model.dart';
@@ -15,10 +16,12 @@ class LoginPage extends StatefulWidget {
   }
 }
 
-class _LoginState extends State<LoginPage> {
+class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
   final _passwordFocusNode = FocusNode();
   final _usernameTextEditingController = TextEditingController();
   final _passwordTextEditingController = TextEditingController();
+
+  AppLifecycleState _lastLifecycleState;
 
   String _username = '';
   String _password = '';
@@ -61,10 +64,39 @@ class _LoginState extends State<LoginPage> {
     };
   }
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _lastLifecycleState = state;
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  _callLoginCode() async {
+    // Android
+    if (_lastLifecycleState == AppLifecycleState.resumed) {
+      final platform = const MethodChannel(METHOD_CHANNEL_NAME);
+      final code = await platform.invokeMethod(CALL_LOGIN_CODE);
+      if (code != null) {
+        print('callLoginCode: $code');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    _callLoginCode();
     return MaterialApp(
       title: 'Login',
       home: Scaffold(
