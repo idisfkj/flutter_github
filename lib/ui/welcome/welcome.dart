@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_github/common/constants.dart';
 import 'package:flutter_github/routes/app_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -11,8 +13,16 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomeState extends State<WelcomePage> {
-  void _goToLogin() {
-    Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+  void _goToLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String authorization = prefs.getString(SP_AUTHORIZATION);
+    String token = prefs.getString(SP_ACCESS_TOKEN);
+    if ((authorization != null && authorization.isNotEmpty) ||
+        (token != null && token.isNotEmpty)) {
+      Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+    } else {
+      Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+    }
   }
 
   @override
