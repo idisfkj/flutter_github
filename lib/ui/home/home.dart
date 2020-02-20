@@ -36,7 +36,10 @@ class _HomePageState extends State<HomePage>
           child: Offstage(),
         ),
       ),
-      body: _tabPages.elementAt(_selectedIndex),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _tabPages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
