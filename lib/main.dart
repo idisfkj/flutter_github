@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'app.dart';
+import 'ui/app.dart';
 
 void main() {
   runApp(GithubApp());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_github/login.dart';
+import 'package:flutter_github/ui/login/login.dart';
 import 'package:flutter_github/routes/app_routes.dart';
-import 'welcome.dart';
+import 'welcome/welcome.dart';
 
 class GithubApp extends StatefulWidget {
   @override
