@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_github/common/constants.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/user_model.dart';
+import 'package:flutter_github/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,6 +46,7 @@ class LoginVM {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(SP_USER_NAME, userModel.login);
       Toast.show('login success! hi ${userModel.name}', context);
+      Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
     } on DioError catch (e) {
       Toast.show('getUser error: ${e.message}', context);
     }
