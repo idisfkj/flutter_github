@@ -8,6 +8,9 @@ showLogoutDialog(BuildContext context) {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         title: Center(
           child: Text(
             'Logout',

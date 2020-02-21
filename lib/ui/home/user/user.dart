@@ -14,16 +14,21 @@ class UserTabPage extends StatefulWidget {
 class _UserTabPageState extends State<UserTabPage> {
   UserVM _vm;
   UserModel _userModel;
+  bool _loading = true;
 
   Widget _buildUserImage() {
     if (_userModel == null) {
-      return Image.asset('images/app_welcome.png');
+      return Image.asset(
+        'images/app_welcome.png',
+        width: 120.0,
+        height: 120.0,
+      );
     } else {
       return FadeInImage.assetNetwork(
         image: _userModel?.avatarUrl ?? '',
         placeholder: 'images/app_welcome.png',
         width: 120.0,
-        height: 120,
+        height: 120.0,
       );
     }
   }
@@ -53,6 +58,7 @@ class _UserTabPageState extends State<UserTabPage> {
     _vm = UserVM(context);
     _vm.getUser().then((userModel) {
       setState(() {
+        _loading = false;
         _userModel = userModel;
       });
     });
@@ -146,7 +152,7 @@ class _UserTabPageState extends State<UserTabPage> {
           ),
         ],
       ),
-      showLoading: _userModel == null,
+      showLoading: _loading,
     );
   }
 }

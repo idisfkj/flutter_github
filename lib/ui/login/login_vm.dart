@@ -17,8 +17,9 @@ class LoginVM {
   String username = '';
   String password = '';
   BuildContext context;
+  ValueChanged<bool> showLoading;
 
-  LoginVM(this.context);
+  LoginVM(this.context, this.showLoading);
 
   signInOnPress() {
     if (username.trim().isEmpty || password.trim().isEmpty) {
@@ -41,6 +42,7 @@ class LoginVM {
   }
 
   _getUser() async {
+    showLoading(true);
     try {
       Response response = await dio.get('/user');
       UserModel userModel = UserModel.fromJson(response.data);
@@ -49,6 +51,7 @@ class LoginVM {
       Toast.show('login success! hi ${userModel.name}', context);
       Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
     } on DioError catch (e) {
+      showLoading(false);
       clearUserInfo();
       Toast.show('getUser error: ${e.message}', context);
     }
@@ -78,6 +81,7 @@ class LoginVM {
   }
 
   _getAccessTokenFromCode(String code) async {
+    showLoading(true);
     try {
       Dio dio = Dio();
       dio.options.baseUrl = GITHUB_BASE_URL;
@@ -96,8 +100,10 @@ class LoginVM {
       await prefs.setString(SP_AUTHORIZATION, '');
       _getUser();
     } on DioError catch (e) {
+      showLoading(false);
       Toast.show('getAccessTokenFromCode DioError: ${e.message}', context);
     } on IOException catch (e) {
+      showLoading(false);
       Toast.show('getAccessTokenFromCode IOError: $e', context);
     }
   }

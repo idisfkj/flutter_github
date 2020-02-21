@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_github/ui/base_page.dart';
 import 'package:flutter_github/ui/login/login_vm.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,11 +18,16 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
   AppLifecycleState _lastLifecycleState;
 
   LoginVM _vm;
+  bool _showLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _vm = LoginVM(context);
+    _vm = LoginVM(context, (show) {
+      setState(() {
+        _showLoading = show;
+      });
+    });
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -44,16 +50,17 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
     return MaterialApp(
       title: 'Login',
       home: Scaffold(
-          //防止因键盘弹出造成bottom overlowed by X pixels
-          resizeToAvoidBottomPadding: false,
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: SafeArea(
-              top: true,
-              child: Offstage(),
-            ),
+        //防止因键盘弹出造成bottom overlowed by X pixels
+        resizeToAvoidBottomPadding: false,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: SafeArea(
+            top: true,
+            child: Offstage(),
           ),
-          body: Center(
+        ),
+        body: BasePage(
+          contentWidget: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -145,7 +152,11 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
                     ))
               ],
             ),
-          )),
+          ),
+          showLoading: _showLoading,
+          loadingShowContent: true,
+        ),
+      ),
     );
   }
 }
