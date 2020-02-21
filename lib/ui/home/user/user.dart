@@ -118,6 +118,27 @@ class _UserTabPageState extends State<UserTabPage> {
               _buildContactWidget(_userModel?.following ?? 0, 'Following')
             ],
           ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 25.0),
+                child: MaterialButton(
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5.0)),
+                  minWidth: 280.0,
+                  height: 45.0,
+                  child: Text(
+                    'logout',
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                  onPressed: _vm.logout,
+                ),
+              ),
+            ),
+          ),
         ],
       );
     }
