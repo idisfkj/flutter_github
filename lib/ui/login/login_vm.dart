@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_github/common/constants.dart';
+import 'package:flutter_github/common/user_manager.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/user_model.dart';
 import 'package:flutter_github/routes/app_routes.dart';
@@ -48,6 +49,7 @@ class LoginVM {
       Toast.show('login success! hi ${userModel.name}', context);
       Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
     } on DioError catch (e) {
+      clearUserInfo();
       Toast.show('getUser error: ${e.message}', context);
     }
   }

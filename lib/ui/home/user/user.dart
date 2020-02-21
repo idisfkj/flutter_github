@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_github/model/user_model.dart';
+import 'package:flutter_github/ui/base_page.dart';
 import 'package:flutter_github/ui/home/user/user_vm.dart';
 
 class UserTabPage extends StatefulWidget {
@@ -13,6 +14,19 @@ class UserTabPage extends StatefulWidget {
 class _UserTabPageState extends State<UserTabPage> {
   UserVM _vm;
   UserModel _userModel;
+
+  Widget _buildUserImage() {
+    if (_userModel == null) {
+      return Image.asset('images/app_welcome.png');
+    } else {
+      return FadeInImage.assetNetwork(
+        image: _userModel?.avatarUrl ?? '',
+        placeholder: 'images/app_welcome.png',
+        width: 120.0,
+        height: 120,
+      );
+    }
+  }
 
   Widget _buildContactWidget(int num, String category) {
     return Column(
@@ -39,30 +53,21 @@ class _UserTabPageState extends State<UserTabPage> {
     _vm = UserVM(context);
     _vm.getUser().then((userModel) {
       setState(() {
-        this._userModel = userModel;
+        _userModel = userModel;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_userModel == null) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    } else {
-      return Column(
+    return BasePage(
+      contentWidget: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 20.0, left: 15.0, right: 25.0),
-                child: FadeInImage.assetNetwork(
-                  image: _userModel?.avatarUrl ?? '',
-                  placeholder: 'images/app_welcome.png',
-                  width: 120.0,
-                  height: 120,
-                ),
+                child: _buildUserImage(),
               ),
               Expanded(
                 child: Column(
@@ -140,7 +145,8 @@ class _UserTabPageState extends State<UserTabPage> {
             ),
           ),
         ],
-      );
-    }
+      ),
+      showLoading: _userModel == null,
+    );
   }
 }
