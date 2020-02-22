@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_github/ui/base_page.dart';
+import 'package:flutter_github/ui/base/base_widget.dart';
 import 'package:flutter_github/ui/login/login_vm.dart';
 
 class LoginPage extends StatefulWidget {
@@ -59,7 +59,7 @@ class _LoginState extends State<LoginPage> with WidgetsBindingObserver {
             child: Offstage(),
           ),
         ),
-        body: BasePage(
+        body: BaseWidget(
           contentWidget: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

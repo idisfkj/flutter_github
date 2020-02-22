@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_github/model/user_model.dart';
-import 'package:flutter_github/ui/base_page.dart';
+import 'package:flutter_github/ui/base/base_widget.dart';
 import 'package:flutter_github/ui/home/user/user_vm.dart';
 
 class UserTabPage extends StatefulWidget {
@@ -66,7 +66,7 @@ class _UserTabPageState extends State<UserTabPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BasePage(
+    return BaseWidget(
       contentWidget: Column(
         children: <Widget>[
           Row(

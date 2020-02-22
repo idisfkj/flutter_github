@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BasePage extends StatelessWidget {
+class BaseWidget extends StatelessWidget {
   final bool showLoading;
   final Widget contentWidget;
   final bool loadingShowContent;
 
-  BasePage(
+  BaseWidget(
       {Key key,
       @required this.contentWidget,
       this.showLoading = true,
