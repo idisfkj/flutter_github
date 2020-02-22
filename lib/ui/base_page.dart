@@ -17,12 +17,12 @@ class BasePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Offstage(
-          offstage: showLoading && !loadingShowContent ?? true,
+        Visibility(
+          visible: !showLoading || loadingShowContent,
           child: contentWidget,
         ),
-        Offstage(
-          offstage: !showLoading,
+        Visibility(
+          visible: showLoading,
           child: Center(
             child: Image.asset('images/loading.gif'),
           ),

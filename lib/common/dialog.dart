@@ -21,13 +21,13 @@ showLogoutDialog(BuildContext context) {
           ),
         ),
         content: const Text(
-          'Are you sure to log out?',
-          style: TextStyle(fontSize: 18.0, color: Colors.grey),
+          'Are you sure to logout?',
+          style: TextStyle(fontSize: 16.0, color: Colors.grey),
         ),
         actions: <Widget>[
           FlatButton(
             child: const Text(
-              'Confirm',
+              'CONFIRM',
               style: TextStyle(fontSize: 16.0),
             ),
             onPressed: () {
@@ -38,7 +38,7 @@ showLogoutDialog(BuildContext context) {
           ),
           FlatButton(
             child: const Text(
-              'Cancel',
+              'CANCEL',
               style: TextStyle(fontSize: 16.0),
             ),
             onPressed: () {

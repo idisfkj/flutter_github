@@ -13,6 +13,8 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomeState extends State<WelcomePage> {
+  Timer _timer;
+
   void _goToLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String authorization = prefs.getString(SP_AUTHORIZATION);
@@ -28,9 +30,16 @@ class _WelcomeState extends State<WelcomePage> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(milliseconds: 1500), () {
+    _timer = Timer(const Duration(milliseconds: 1500), () {
       _goToLogin();
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _timer = null;
+    super.dispose();
   }
 
   @override

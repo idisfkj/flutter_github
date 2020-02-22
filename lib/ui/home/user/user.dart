@@ -55,13 +55,13 @@ class _UserTabPageState extends State<UserTabPage> {
   @override
   void initState() {
     super.initState();
-    _vm = UserVM(context);
-    _vm.getUser().then((userModel) {
-      setState(() {
-        _loading = false;
-        _userModel = userModel;
+    _vm = UserVM(context)
+      ..getUser().then((userModel) {
+        setState(() {
+          _loading = false;
+          _userModel = userModel;
+        });
       });
-    });
   }
 
   @override
