@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github/ui/home/notification/notification.dart';
 import 'package:flutter_github/ui/home/user/user.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage>
 
   static const List<Widget> _tabPages = <Widget>[
     Text('Search'),
-    Text('Notification'),
+    NotificationPage(),
     UserTabPage()
   ];
 
