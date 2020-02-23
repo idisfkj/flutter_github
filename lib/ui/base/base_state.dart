@@ -32,6 +32,13 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   }
 
   @override
+  notifyStateChanged() {
+    return () {
+      setState(() {});
+    };
+  }
+
+  @override
   void initState() {
     super.initState();
     _vm = createVM()

@@ -6,17 +6,27 @@ import 'package:flutter_github/common/user_manager.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/user_model.dart';
 import 'package:flutter_github/routes/app_routes.dart';
+import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:toast/toast.dart';
 
-class UserVM {
+class UserVM extends BaseVM {
   BuildContext context;
 
   UserVM(this.context);
 
-  Future<UserModel> getUser() async {
+  UserModel _userModel;
+
+  UserModel get userModel => _userModel;
+
+  @override
+  void init() {
+    _getUser();
+  }
+
+  _getUser() async {
     try {
       Response response = await dio.get('/user');
-      return UserModel.fromJson(response.data);
+      _userModel = UserModel.fromJson(response.data);
     } on DioError catch (e) {
       // Unauthorized
       if (e.response != null && e.response.statusCode == 401) {
@@ -28,8 +38,8 @@ class UserVM {
       } else {
         Toast.show('getUser error: ${e.message}', context);
       }
-      return null;
     }
+    showLoading(false);
   }
 
   logout() {
