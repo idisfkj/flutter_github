@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage>
 
   static const List<Widget> _tabPages = <Widget>[
     Text('Search'),
-    NotificationPage(),
+    NotificationTabPage(),
     UserTabPage()
   ];
 

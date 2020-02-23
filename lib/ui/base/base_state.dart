@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:flutter_github/ui/base/base_widget.dart';
@@ -57,7 +56,6 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: SafeArea(
-          top: true,
           child: Offstage(),
         ),
       ),

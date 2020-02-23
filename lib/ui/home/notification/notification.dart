@@ -1,71 +1,94 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_github/model/notification_model.dart';
 import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
-import 'package:toast/toast.dart';
 
 import 'notification_vm.dart';
 
-class NotificationPage extends BasePage<_NotificationPageState> {
-  const NotificationPage();
+class NotificationTabPage extends BasePage<_NotificationPageState> {
+  const NotificationTabPage();
 
   @override
   _NotificationPageState createBaseState() => _NotificationPageState();
 }
 
 class _NotificationPageState
-    extends BaseState<NotificationVM, NotificationPage> {
+    extends BaseState<NotificationVM, NotificationTabPage> {
   @override
-  NotificationVM createVM() => NotificationVM();
-
-  Future<void> _handlerRefresh() {
-    final Completer<String> completer = Completer<String>();
-    Timer(const Duration(seconds: 3), () {
-      completer.complete('refresing success');
-    });
-    return completer.future.then((content) {
-      Toast.show(content, context);
-    });
-  }
-
-  static final List<String> _items = <String>[
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-  ];
+  NotificationVM createVM() => NotificationVM(context);
 
   @override
   Widget createContentWidget() {
     return RefreshIndicator(
-      onRefresh: _handlerRefresh,
+      onRefresh: vm.handlerRefresh,
       child: Scrollbar(
         child: ListView.builder(
-            padding: kMaterialListPadding,
-            itemCount: _items.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                isThreeLine: true,
-                leading: CircleAvatar(
-                  child: Text(_items[index]),
+          itemCount: vm.notifications?.length ?? 0,
+          itemBuilder: (BuildContext context, int index) {
+            final NotificationModel item = vm.notifications[index];
+            return GestureDetector(
+              onTap: () {
+                vm.contentTap(index);
+              },
+              child: Container(
+                color: item.unread ? Colors.white : Color.fromARGB(13, 0, 0, 0),
+                padding: EdgeInsets.only(left: 15.0, top: 10.0, right: 15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      item.repository.fullName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                        color: item.unread
+                            ? Colors.black87
+                            : Color.fromARGB(255, 102, 102, 102),
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 5.0),
+                          child: Image.asset(
+                            vm.getTypeFlagSrc(item.subject.type),
+                            width: 18.0,
+                            height: 18.0,
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 5.0, left: 10.0),
+                            child: Text(
+                              item.subject.title,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: item.unread
+                                    ? Color.fromARGB(255, 17, 17, 17)
+                                    : Color.fromARGB(255, 102, 102, 102),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0),
+                      child: Divider(
+                        height: 1.0,
+                        endIndent: 0.0,
+                        color: Color.fromARGB(255, 207, 216, 220),
+                      ),
+                    ),
+                  ],
                 ),
-                title: Text('This item represent ${_items[index]}'),
-                subtitle: Text(
-                    'Even more additional list item information appears on line three.'),
-              );
-            }),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
