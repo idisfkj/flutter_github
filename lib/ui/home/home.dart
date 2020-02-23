@@ -29,14 +29,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: SafeArea(
-          top: true,
-          child: Offstage(),
-        ),
-      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _tabPages,

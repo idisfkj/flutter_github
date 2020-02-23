@@ -9,17 +9,23 @@ import 'package:flutter_github/common/user_manager.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/user_model.dart';
 import 'package:flutter_github/routes/app_routes.dart';
+import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginVM {
+class LoginVM extends BaseVM {
   String username = '';
   String password = '';
   BuildContext context;
-  ValueChanged<bool> showLoading;
 
-  LoginVM(this.context, this.showLoading);
+  LoginVM(this.context);
+
+  @override
+  void init() {
+    showLoading(false);
+    loadingShowContent(true);
+  }
 
   signInOnPress() {
     if (username.trim().isEmpty || password.trim().isEmpty) {
