@@ -14,7 +14,7 @@ description: Awesome Github flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -52,6 +52,10 @@ flutter:
     - images/issue_closed.png
     - images/issue_open.png
     - images/pull_request.png
+    - images/circle.png
+    - images/git_repo_forked.png
+    - images/license.png
+    - images/start.png
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 
