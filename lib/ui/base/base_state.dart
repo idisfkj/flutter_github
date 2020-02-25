@@ -9,6 +9,10 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   bool _showLoading = true;
   bool _loadingShowContent = false;
 
+  bool get showLoading => _showLoading;
+
+  bool get loadingShowContent => _loadingShowContent;
+
   VM get vm => _vm;
 
   VM createVM();

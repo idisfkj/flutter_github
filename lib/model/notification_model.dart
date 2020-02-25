@@ -44,6 +44,9 @@ class NotificationModel {
       };
 }
 
+List<Repository> repositoryListFromJson(dynamic list) =>
+    List<Repository>.from(list.map((x) => Repository.fromJson(x)));
+
 class Repository {
   int id;
   String nodeId;
@@ -92,6 +95,16 @@ class Repository {
   String tagsUrl;
   String teamsUrl;
   String treesUrl;
+  String createAt;
+  String updatedAt;
+  String pushedAt;
+  int stargazersCount;
+  int watchersCount;
+  String homePage;
+  String language;
+  int forksCount;
+  int openIssuesCount;
+  License license;
 
   Repository({
     this.id,
@@ -141,6 +154,16 @@ class Repository {
     this.tagsUrl,
     this.teamsUrl,
     this.treesUrl,
+    this.createAt,
+    this.updatedAt,
+    this.pushedAt,
+    this.stargazersCount,
+    this.watchersCount,
+    this.homePage,
+    this.language,
+    this.forksCount,
+    this.openIssuesCount,
+    this.license,
   });
 
   factory Repository.fromJson(Map<String, dynamic> json) => Repository(
@@ -191,6 +214,16 @@ class Repository {
         tagsUrl: json["tags_url"],
         teamsUrl: json["teams_url"],
         treesUrl: json["trees_url"],
+        createAt: json['created_at'],
+        updatedAt: json['updated_at'],
+        pushedAt: json['pushed_at'],
+        stargazersCount: json['stargazers_count'],
+        watchersCount: json['watchers_count'],
+        homePage: json['homePage'],
+        language: json['language'],
+        forksCount: json['forks_count'],
+        openIssuesCount: json['open_issues_count'],
+        license: License.fromJson(json['license']),
       );
 
   Map<String, dynamic> toJson() => {
@@ -242,6 +275,15 @@ class Repository {
         "teams_url": teamsUrl,
         "trees_url": treesUrl,
       };
+}
+
+class License {
+  String name;
+
+  License({this.name});
+
+  factory License.fromJson(Map<String, dynamic> json) =>
+      json == null ? null : License(name: json['name']);
 }
 
 class Owner {

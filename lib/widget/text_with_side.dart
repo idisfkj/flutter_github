@@ -17,7 +17,7 @@ class TextWithSide extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(left: sideDistance),
           child: text,
-        )
+        ),
       ],
     );
   }

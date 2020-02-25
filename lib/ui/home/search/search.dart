@@ -15,10 +15,16 @@ class SearchTabPage extends BasePage {
 }
 
 class _SearchPageState extends BaseState<SearchVM, SearchTabPage> {
-  final SearchDelegate _delegate = _SearchDelegate();
+  _SearchDelegate _delegate;
 
   @override
-  SearchVM createVM() => SearchVM();
+  void initState() {
+    super.initState();
+    _delegate = _SearchDelegate(vm, this);
+  }
+
+  @override
+  SearchVM createVM() => SearchVM(context);
 
   @override
   Widget createContentWidget() {
@@ -43,6 +49,11 @@ class _SearchPageState extends BaseState<SearchVM, SearchTabPage> {
 }
 
 class _SearchDelegate extends SearchDelegate<Repository> {
+  SearchVM _searchVM;
+  _SearchPageState _state;
+
+  _SearchDelegate(this._searchVM, this._state);
+
   final bottomInfoTextStyle =
       TextStyle(fontSize: 12.0, color: color_999, fontStyle: FontStyle.italic);
 
@@ -78,10 +89,21 @@ class _SearchDelegate extends SearchDelegate<Repository> {
 
   @override
   Widget buildResults(BuildContext context) {
+    print('buildResults ${_state.showLoading}');
+//    if (_state.showLoading) {
+//      return Center(
+//        child: CircularProgressIndicator(),
+//      );
+//    }
     return ListView.builder(
       padding: EdgeInsets.only(bottom: 10.0),
-      itemCount: 2,
+      itemCount: _searchVM.searchModel?.items?.length ?? 0,
       itemBuilder: (BuildContext context, int index) {
+        final _item = _searchVM.searchModel.items[index];
+        final _licenseLength = _item.license?.name?.length ?? 0;
+        final _license = _item.license?.name
+                ?.substring(0, _licenseLength > 15 ? 15 : _licenseLength) ??
+            '';
         return GestureDetector(
           onTap: () {
             close(context, Repository(name: query));
@@ -95,28 +117,32 @@ class _SearchDelegate extends SearchDelegate<Repository> {
                 Row(
                   children: <Widget>[
                     Text(
-                      'AwesomeGithub',
+                      _item.name,
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 33, 117, 243),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10.0),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
-                      child: Text(
-                        'private',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: color_666,
+                    Visibility(
+                      visible: _item.private,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 3.0),
+                        child: Text(
+                          'private',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            color: color_666,
+                          ),
                         ),
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1.0, color: Colors.grey[400]),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(2.0),
+                        decoration: BoxDecoration(
+                          border:
+                              Border.all(width: 1.0, color: Colors.grey[400]),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(2.0),
+                          ),
                         ),
                       ),
                     ),
@@ -125,7 +151,7 @@ class _SearchDelegate extends SearchDelegate<Repository> {
                 Padding(
                   padding: EdgeInsets.only(top: 10.0),
                   child: Text(
-                    'AwesomeGithub App',
+                    _item.description ?? '',
                     style: TextStyle(
                       fontSize: 14.0,
                       color: color_666,
@@ -138,13 +164,23 @@ class _SearchDelegate extends SearchDelegate<Repository> {
                   padding: EdgeInsets.only(top: 10.0),
                   child: Row(
                     children: <Widget>[
-                      _buildBottomInfo('kotlin', 'images/circle.png'),
-                      _buildBottomInfo('100', 'images/start.png'),
-                      _buildBottomInfo('99', 'images/git_repo_forked.png'),
-                      _buildBottomInfo('License 2.0', 'images/license.png'),
-                      Text(
-                        '2019-11-05T15:57:00Z',
-                        style: bottomInfoTextStyle,
+                      _buildBottomInfo(
+                          _item?.language ?? '',
+                          'images/circle.png',
+                          _item.language?.isNotEmpty ?? false),
+                      _buildBottomInfo(_item.stargazersCount.toString(),
+                          'images/start.png', _item.stargazersCount > 0),
+                      _buildBottomInfo(_item.forksCount.toString(),
+                          'images/git_repo_forked.png', _item.forksCount > 0),
+                      _buildBottomInfo(_license, 'images/license.png',
+                          _item.license?.name?.isNotEmpty ?? false),
+                      Expanded(
+                        child: Text(
+                          _searchVM.updateAtContent(_item.updatedAt),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: bottomInfoTextStyle,
+                        ),
                       ),
                     ],
                   ),
@@ -166,9 +202,9 @@ class _SearchDelegate extends SearchDelegate<Repository> {
     );
   }
 
-  Widget _buildBottomInfo(String content, String imagePath) {
+  Widget _buildBottomInfo(String content, String imagePath, bool visible) {
     return Visibility(
-      visible: true,
+      visible: visible,
       child: Padding(
         padding: EdgeInsets.only(right: 10.0),
         child: TextWithSide(
@@ -180,6 +216,8 @@ class _SearchDelegate extends SearchDelegate<Repository> {
           text: Text(
             content,
             style: bottomInfoTextStyle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           sideDistance: 5.0,
         ),
@@ -197,7 +235,9 @@ class _SearchDelegate extends SearchDelegate<Repository> {
       suggestions: suggestions.toList(),
       onSelected: (String suggestions) {
         query = suggestions;
-        showResults(context);
+        _searchVM.search(query).then((success) {
+          showResults(context);
+        });
       },
     );
   }
