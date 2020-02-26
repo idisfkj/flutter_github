@@ -20,7 +20,6 @@ class SearchVM extends BaseVM {
   }
 
   Future<bool> search(String query) async {
-    showLoading(true);
     try {
       Response response =
           await dio.get('/search/repositories', queryParameters: {'q': query});
@@ -28,9 +27,9 @@ class SearchVM extends BaseVM {
       Toast.show('search ${_searchModel.items[0].name}', context);
       return true;
     } on DioError catch (e) {
+      _searchModel = null;
       Toast.show('search error ${e.message}', context);
     }
-    showLoading(false);
     return false;
   }
 

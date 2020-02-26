@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_github/common/colors.dart';
 import 'package:flutter_github/model/notification_model.dart';
+import 'package:flutter_github/model/search_model.dart';
 import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
 import 'package:flutter_github/ui/home/search/search_vm.dart';
@@ -20,7 +21,7 @@ class _SearchPageState extends BaseState<SearchVM, SearchTabPage> {
   @override
   void initState() {
     super.initState();
-    _delegate = _SearchDelegate(vm, this);
+    _delegate = _SearchDelegate(vm);
   }
 
   @override
@@ -50,9 +51,12 @@ class _SearchPageState extends BaseState<SearchVM, SearchTabPage> {
 
 class _SearchDelegate extends SearchDelegate<Repository> {
   SearchVM _searchVM;
-  _SearchPageState _state;
+  String _query;
+  ValueNotifier<SearchModel> _searchModelNotifier;
 
-  _SearchDelegate(this._searchVM, this._state);
+  _SearchDelegate(this._searchVM) {
+    _searchModelNotifier = ValueNotifier<SearchModel>(_searchVM.searchModel);
+  }
 
   final bottomInfoTextStyle =
       TextStyle(fontSize: 12.0, color: color_999, fontStyle: FontStyle.italic);
@@ -89,115 +93,133 @@ class _SearchDelegate extends SearchDelegate<Repository> {
 
   @override
   Widget buildResults(BuildContext context) {
-    print('buildResults ${_state.showLoading}');
-//    if (_state.showLoading) {
-//      return Center(
-//        child: CircularProgressIndicator(),
-//      );
-//    }
-    return ListView.builder(
-      padding: EdgeInsets.only(bottom: 10.0),
-      itemCount: _searchVM.searchModel?.items?.length ?? 0,
-      itemBuilder: (BuildContext context, int index) {
-        final _item = _searchVM.searchModel.items[index];
-        final _licenseLength = _item.license?.name?.length ?? 0;
-        final _license = _item.license?.name
-                ?.substring(0, _licenseLength > 15 ? 15 : _licenseLength) ??
-            '';
-        return GestureDetector(
-          onTap: () {
-            close(context, Repository(name: query));
-          },
-          behavior: HitTestBehavior.opaque,
-          child: Container(
-            padding: EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      _item.name,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 33, 117, 243),
-                      ),
-                    ),
-                    Visibility(
-                      visible: _item.private,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10.0),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 8.0, vertical: 3.0),
-                        child: Text(
-                          'private',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            color: color_666,
+    if (_query != query || _searchVM.searchModel == null) {
+      _query = query;
+      _searchModelNotifier.value = null;
+      _searchVM.search(query).then((success) {
+        _searchModelNotifier.value = _searchVM.searchModel ?? SearchModel();
+      });
+    }
+    return ValueListenableBuilder<SearchModel>(
+      valueListenable: _searchModelNotifier,
+      builder: (BuildContext context, SearchModel model, Widget child) {
+        return model == null
+            ? Center(
+                child: Image.asset('images/loading.gif'),
+              )
+            : ListView.builder(
+                padding: EdgeInsets.only(bottom: 10.0),
+                itemCount: model?.items?.length ?? 0,
+                itemBuilder: (BuildContext context, int index) {
+                  final _item = model.items[index];
+                  final _licenseLength = _item.license?.name?.length ?? 0;
+                  final _license = _item.license?.name?.substring(
+                          0, _licenseLength > 15 ? 15 : _licenseLength) ??
+                      '';
+                  final _nameLength = _item.name.length;
+                  final _name = _item.name
+                      .substring(0, _nameLength > 20 ? 20 : _nameLength);
+                  return GestureDetector(
+                    onTap: () {
+                      close(context, Repository(name: query));
+                    },
+                    behavior: HitTestBehavior.opaque,
+                    child: Container(
+                      padding:
+                          EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                _name,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 33, 117, 243),
+                                ),
+                              ),
+                              Visibility(
+                                visible: _item.private,
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 10.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 3.0),
+                                  child: Text(
+                                    'private',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: color_666,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1.0, color: Colors.grey[400]),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(2.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 1.0, color: Colors.grey[400]),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(2.0),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Text(
+                              _item.description ?? '',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: color_666,
+                              ),
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.0),
+                            child: Row(
+                              children: <Widget>[
+                                _buildBottomInfo(
+                                    _item?.language ?? '',
+                                    'images/circle.png',
+                                    _item.language?.isNotEmpty ?? false),
+                                _buildBottomInfo(
+                                    _item.stargazersCount.toString(),
+                                    'images/start.png',
+                                    _item.stargazersCount > 0),
+                                _buildBottomInfo(
+                                    _item.forksCount.toString(),
+                                    'images/git_repo_forked.png',
+                                    _item.forksCount > 0),
+                                _buildBottomInfo(_license, 'images/license.png',
+                                    _item.license?.name?.isNotEmpty ?? false),
+                                Expanded(
+                                  child: Text(
+                                    _searchVM.updateAtContent(_item.updatedAt),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: bottomInfoTextStyle,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 15.0),
+                            child: Divider(
+                              thickness: 1.0,
+                              color: colorEAEAEA,
+                              height: 1.0,
+                              endIndent: 0.0,
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    _item.description ?? '',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: color_666,
-                    ),
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Row(
-                    children: <Widget>[
-                      _buildBottomInfo(
-                          _item?.language ?? '',
-                          'images/circle.png',
-                          _item.language?.isNotEmpty ?? false),
-                      _buildBottomInfo(_item.stargazersCount.toString(),
-                          'images/start.png', _item.stargazersCount > 0),
-                      _buildBottomInfo(_item.forksCount.toString(),
-                          'images/git_repo_forked.png', _item.forksCount > 0),
-                      _buildBottomInfo(_license, 'images/license.png',
-                          _item.license?.name?.isNotEmpty ?? false),
-                      Expanded(
-                        child: Text(
-                          _searchVM.updateAtContent(_item.updatedAt),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: bottomInfoTextStyle,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 15.0),
-                  child: Divider(
-                    thickness: 1.0,
-                    color: colorEAEAEA,
-                    height: 1.0,
-                    endIndent: 0.0,
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
+                  );
+                },
+              );
       },
     );
   }
@@ -235,9 +257,7 @@ class _SearchDelegate extends SearchDelegate<Repository> {
       suggestions: suggestions.toList(),
       onSelected: (String suggestions) {
         query = suggestions;
-        _searchVM.search(query).then((success) {
-          showResults(context);
-        });
+        showResults(context);
       },
     );
   }
