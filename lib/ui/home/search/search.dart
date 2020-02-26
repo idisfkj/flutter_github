@@ -66,7 +66,8 @@ class _SearchPageState extends BaseState<SearchVM, SearchTabPage> {
               _item.name.substring(0, _nameLength > 20 ? 20 : _nameLength);
           return GestureDetector(
             onTap: () {
-              Toast.show('index of $index, todo jump repository detail!', context);
+              Toast.show(
+                  'index of $index, todo jump repository detail!', context);
             },
             behavior: HitTestBehavior.opaque,
             child: Container(
@@ -199,6 +200,13 @@ class _SearchDelegate extends SearchDelegate<Repository> {
 //  String _query;
   ValueNotifier<SearchModel> _searchModelNotifier;
   SearchListWidget<SearchModel> _getSearchListWidget;
+  final List<String> _hotSuggestionsList = const [
+    'android-api-analysis',
+    'AwesomeGithub',
+    'flutter_github'
+  ];
+  List<String> _suggestionsList;
+  final int _maxSuggestionsSize = 6;
 
   _SearchDelegate(this._searchVM, this._getSearchListWidget) {
     _searchModelNotifier = ValueNotifier<SearchModel>(_searchVM.searchModel);
@@ -239,6 +247,15 @@ class _SearchDelegate extends SearchDelegate<Repository> {
 
   @override
   void showResults(BuildContext context) {
+    if (!_hotSuggestionsList.contains(query)) {
+      if (_suggestionsList.contains(query)) {
+        _suggestionsList.remove(query);
+      }
+      if (_suggestionsList.length >= _maxSuggestionsSize) {
+        _suggestionsList.removeLast();
+      }
+      _suggestionsList.insert(_hotSuggestionsList.length, query);
+    }
     _searchVM.search(query);
     close(context, null);
   }
@@ -266,9 +283,12 @@ class _SearchDelegate extends SearchDelegate<Repository> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    if (_suggestionsList == null) {
+      _suggestionsList = [..._hotSuggestionsList];
+    }
     final Iterable<String> suggestions = query.isEmpty
-        ? ['aa', 'bb']
-        : ['aaaaa', 'bbhj'].where((String i) => i.startsWith(query));
+        ? _suggestionsList
+        : _suggestionsList.where((String i) => i.startsWith(query));
     return _SuggestionList(
       query: query,
       suggestions: suggestions.toList(),
