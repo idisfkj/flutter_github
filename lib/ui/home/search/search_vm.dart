@@ -16,21 +16,21 @@ class SearchVM extends BaseVM {
 
   @override
   void init() {
-    showLoading(false);
+    loadingShowContent(true);
+    search('android-api-analysis');
   }
 
-  Future<bool> search(String query) async {
+  search(String query) async {
+    showLoading(true);
     try {
       Response response =
           await dio.get('/search/repositories', queryParameters: {'q': query});
       _searchModel = SearchModel.fromJson(response.data);
-      Toast.show('search ${_searchModel.items[0].name}', context);
-      return true;
     } on DioError catch (e) {
       _searchModel = null;
       Toast.show('search error ${e.message}', context);
     }
-    return false;
+    showLoading(false);
   }
 
   updateAtContent(String updateAt) {
