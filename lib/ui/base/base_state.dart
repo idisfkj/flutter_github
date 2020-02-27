@@ -50,6 +50,15 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
       ..init();
   }
 
+  PreferredSizeWidget createAppBar() {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: SafeArea(
+        child: Offstage(),
+      ),
+    );
+  }
+
   Widget createContentWidget();
 
   @override
@@ -57,12 +66,7 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
     return Scaffold(
       //防止因键盘弹出造成bottom overlowed by X pixels
       resizeToAvoidBottomPadding: false,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: SafeArea(
-          child: Offstage(),
-        ),
-      ),
+      appBar: createAppBar(),
       body: BaseWidget(
         contentWidget: createContentWidget(),
         showLoading: _showLoading,
