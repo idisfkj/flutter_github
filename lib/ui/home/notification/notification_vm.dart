@@ -47,7 +47,7 @@ class NotificationVM extends BaseVM {
         'before': before
       });
       if (isRefresh) {
-        _completer.complete('refresing success');
+        _completer.complete('refresing completed');
       }
       _notifications = List<NotificationModel>.from(
           response.data.map((x) => NotificationModel.fromJson(x)));

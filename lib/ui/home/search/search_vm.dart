@@ -33,10 +33,4 @@ class SearchVM extends BaseVM {
     showLoading(false);
   }
 
-  updateAtContent(String updateAt) {
-    if (updateAt != null && updateAt.indexOf('T') >= 0) {
-      return updateAt.substring(0, updateAt.indexOf('T'));
-    }
-    return '';
-  }
 }

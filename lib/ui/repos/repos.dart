@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
 import 'package:flutter_github/ui/repos/repos_vm.dart';
+import 'package:flutter_github/widget/repository_item_view.dart';
 
 class RepositoryPage extends BasePage {
   @override
@@ -15,11 +16,16 @@ class _RepositoryState extends BaseState<RepositoryVM, RepositoryPage> {
 
   @override
   Widget createContentWidget() {
-    return ListView.builder(
-      itemCount: 0,
-      itemBuilder: (BuildContext context, int index) {
-        return null;
-      },
+    return RefreshIndicator(
+      onRefresh: vm.handlerRefresh,
+      child: Scrollbar(
+        child: ListView.builder(
+          itemCount: vm.list?.length ?? 0,
+          itemBuilder: (BuildContext context, int index) {
+            return RepositoryItemView(vm.list[index]);
+          },
+        ),
+      ),
     );
   }
 
@@ -27,6 +33,7 @@ class _RepositoryState extends BaseState<RepositoryVM, RepositoryPage> {
   PreferredSizeWidget createAppBar() {
     return AppBar(
       title: Text('Repository'),
+      centerTitle: true,
     );
   }
 }
