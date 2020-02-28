@@ -77,8 +77,9 @@ class _UserTabPageState extends BaseState<UserVM, UserTabPage> {
             _buildContactWidget(vm.userModel?.publicRepos ?? 0, 'Repos', () {
               Navigator.of(context).pushNamed(AppRoutes.repositoryRoute);
             }),
-            _buildContactWidget(
-                vm.userModel?.followers ?? 0, 'Followers', () {}),
+            _buildContactWidget(vm.userModel?.followers ?? 0, 'Followers', () {
+              Navigator.of(context).pushNamed(AppRoutes.followersRoute);
+            }),
             _buildContactWidget(
                 vm.userModel?.following ?? 0, 'Following', () {})
           ],

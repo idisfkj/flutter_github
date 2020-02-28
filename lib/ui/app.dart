@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_github/ui/followers/followers.dart';
 import 'package:flutter_github/ui/home/home.dart';
 import 'package:flutter_github/ui/login/login.dart';
 import 'package:flutter_github/routes/app_routes.dart';
@@ -24,6 +25,7 @@ class _GithubAppState extends State<GithubApp> {
         AppRoutes.loginRoute: (BuildContext context) => LoginPage(),
         AppRoutes.homeRoute: (BuildContext context) => HomePage(),
         AppRoutes.repositoryRoute: (BuildContext context) => RepositoryPage(),
+        AppRoutes.followersRoute: (BuildContext context) => FollowersPage(),
       },
     );
   }
