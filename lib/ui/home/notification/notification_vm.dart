@@ -7,12 +7,11 @@ import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:toast/toast.dart';
 
 class NotificationVM extends BaseVM {
-  BuildContext context;
   List<NotificationModel> _notifications;
 
   List<NotificationModel> get notifications => _notifications;
 
-  NotificationVM(this.context);
+  NotificationVM(BuildContext context) : super(context);
 
   Completer<String> _completer;
 

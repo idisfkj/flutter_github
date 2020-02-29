@@ -19,13 +19,16 @@ class _GithubAppState extends State<GithubApp> {
     return MaterialApp(
       title: 'Flutter Github',
       theme: ThemeData.light(),
-      initialRoute: AppRoutes.welcomeRoute,
+      initialRoute: welcomeRoute.routeName,
       routes: {
-        AppRoutes.welcomeRoute: (BuildContext context) => WelcomePage(),
-        AppRoutes.loginRoute: (BuildContext context) => LoginPage(),
-        AppRoutes.homeRoute: (BuildContext context) => HomePage(),
-        AppRoutes.repositoryRoute: (BuildContext context) => RepositoryPage(),
-        AppRoutes.followersRoute: (BuildContext context) => FollowersPage(),
+        welcomeRoute.routeName: (BuildContext context) => WelcomePage(),
+        loginRoute.routeName: (BuildContext context) => LoginPage(),
+        homeRoute.routeName: (BuildContext context) => HomePage(),
+        repositoryRoute.routeName: (BuildContext context) => RepositoryPage(),
+        followersRoute.routeName: (BuildContext context) =>
+            FollowersPage(followersRoute.pageType),
+        followingRoute.routeName: (BuildContext context) =>
+            FollowersPage(followingRoute.pageType),
       },
     );
   }

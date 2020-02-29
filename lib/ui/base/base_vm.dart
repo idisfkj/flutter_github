@@ -2,6 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_github/ui/base/vm_s_contract.dart';
 
 abstract class BaseVM {
+  final BuildContext _context;
+
+  BuildContext get context => _context;
+
+  BaseVM(this._context);
+
   ValueChanged<bool> _showLoading;
   ValueChanged<bool> _loadingShowContent;
   VoidCallback _notifyStateChanged;

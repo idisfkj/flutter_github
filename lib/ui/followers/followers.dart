@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_github/routes/app_routes.dart';
 import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
 import 'package:flutter_github/ui/base/base_vm.dart';
@@ -7,15 +8,26 @@ import 'package:flutter_github/widget/followers_item_view.dart';
 import 'package:toast/toast.dart';
 
 class FollowersPage extends BasePage {
+  final String _pageType;
+
+  FollowersPage(this._pageType);
+
   @override
-  BaseState<BaseVM, StatefulWidget> createBaseState() => _FollowersState();
+  BaseState<BaseVM, StatefulWidget> createBaseState() =>
+      _FollowersState(this._pageType);
 }
 
 class _FollowersState extends BaseState<FollowersVM, FollowersPage> {
+  final String _pageType;
+
+  _FollowersState(this._pageType);
+
   @override
   PreferredSizeWidget createAppBar() {
     return AppBar(
-      title: Text('Followers'),
+      title: Text(_pageType == PageType.followers
+          ? followersRoute.pageTitle
+          : followingRoute.pageTitle),
       centerTitle: true,
     );
   }
@@ -44,5 +56,5 @@ class _FollowersState extends BaseState<FollowersVM, FollowersPage> {
   }
 
   @override
-  FollowersVM createVM() => FollowersVM(context);
+  FollowersVM createVM() => FollowersVM(context, _pageType);
 }

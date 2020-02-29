@@ -75,13 +75,14 @@ class _UserTabPageState extends BaseState<UserVM, UserTabPage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             _buildContactWidget(vm.userModel?.publicRepos ?? 0, 'Repos', () {
-              Navigator.of(context).pushNamed(AppRoutes.repositoryRoute);
+              Navigator.of(context).pushNamed(repositoryRoute.routeName);
             }),
             _buildContactWidget(vm.userModel?.followers ?? 0, 'Followers', () {
-              Navigator.of(context).pushNamed(AppRoutes.followersRoute);
+              Navigator.of(context).pushNamed(followersRoute.routeName);
             }),
-            _buildContactWidget(
-                vm.userModel?.following ?? 0, 'Following', () {})
+            _buildContactWidget(vm.userModel?.following ?? 0, 'Following', () {
+              Navigator.of(context).pushNamed(followingRoute.routeName);
+            })
           ],
         ),
         Expanded(

@@ -6,11 +6,9 @@ import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:toast/toast.dart';
 
 class SearchVM extends BaseVM {
-  BuildContext context;
-
-  SearchVM(this.context);
-
   SearchModel _searchModel;
+
+  SearchVM(BuildContext context) : super(context);
 
   SearchModel get searchModel => _searchModel;
 
@@ -32,5 +30,4 @@ class SearchVM extends BaseVM {
     }
     showLoading(false);
   }
-
 }

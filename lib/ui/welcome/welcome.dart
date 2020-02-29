@@ -21,9 +21,9 @@ class _WelcomeState extends State<WelcomePage> {
     String token = prefs.getString(SP_ACCESS_TOKEN);
     if ((authorization != null && authorization.isNotEmpty) ||
         (token != null && token.isNotEmpty)) {
-      Navigator.pushReplacementNamed(context, AppRoutes.homeRoute);
+      Navigator.pushReplacementNamed(context, homeRoute.routeName);
     } else {
-      Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+      Navigator.pushReplacementNamed(context, loginRoute.routeName);
     }
   }
 

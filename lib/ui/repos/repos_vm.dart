@@ -8,11 +8,9 @@ import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:toast/toast.dart';
 
 class RepositoryVM extends BaseVM {
-  BuildContext context;
-
-  RepositoryVM(this.context);
-
   List<Repository> _list;
+
+  RepositoryVM(BuildContext context) : super(context);
 
   List<Repository> get list => _list;
 

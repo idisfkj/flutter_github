@@ -17,9 +17,8 @@ import 'package:url_launcher/url_launcher.dart';
 class LoginVM extends BaseVM {
   String username = '';
   String password = '';
-  BuildContext context;
 
-  LoginVM(this.context);
+  LoginVM(BuildContext context) : super(context);
 
   @override
   void init() {
@@ -55,7 +54,7 @@ class LoginVM extends BaseVM {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(SP_USER_NAME, userModel.login);
       Toast.show('login success! hi ${userModel.name}', context);
-      Navigator.of(context).pushReplacementNamed(AppRoutes.homeRoute);
+      Navigator.of(context).pushReplacementNamed(homeRoute.routeName);
     } on DioError catch (e) {
       showLoading(false);
       clearUserInfo();

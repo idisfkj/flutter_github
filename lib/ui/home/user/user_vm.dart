@@ -10,11 +10,9 @@ import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:toast/toast.dart';
 
 class UserVM extends BaseVM {
-  BuildContext context;
-
-  UserVM(this.context);
-
   UserModel _userModel;
+
+  UserVM(BuildContext context) : super(context);
 
   UserModel get userModel => _userModel;
 
@@ -31,7 +29,7 @@ class UserVM extends BaseVM {
       // Unauthorized
       if (e.response != null && e.response.statusCode == 401) {
         clearUserInfo();
-        Navigator.of(context).pushReplacementNamed(AppRoutes.loginRoute);
+        Navigator.of(context).pushReplacementNamed(loginRoute.routeName);
         Toast.show(
             'The authorized login has expired, please login again.', context,
             duration: 3);

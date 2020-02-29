@@ -33,7 +33,7 @@ showLogoutDialog(BuildContext context) {
             onPressed: () {
               clearUserInfo();
               Navigator.pop(context);
-              Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
+              Navigator.pushReplacementNamed(context, loginRoute.routeName);
             },
           ),
           FlatButton(
