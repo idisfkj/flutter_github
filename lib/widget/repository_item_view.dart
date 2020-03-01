@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_github/common/colors.dart';
 import 'package:flutter_github/model/notification_model.dart';
+import 'package:flutter_github/ui/webview/webview.dart';
 import 'package:flutter_github/widget/text_with_side.dart';
 import 'package:toast/toast.dart';
 
@@ -16,7 +17,9 @@ class RepositoryItemView extends StatelessWidget {
 
   _goToRepositoryDetail(BuildContext context) {
     return () {
-      Toast.show('todo jump repository detail!', context);
+      Navigator.push(context, MaterialPageRoute(builder: (_) {
+        return WebViewPage(title: _item.name, url: _item.htmlUrl);
+      }));
     };
   }
 

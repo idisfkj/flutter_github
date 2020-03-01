@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/notification_model.dart';
 import 'package:flutter_github/ui/base/base_vm.dart';
+import 'package:flutter_github/ui/webview/webview.dart';
 import 'package:toast/toast.dart';
 
 class NotificationVM extends BaseVM {
@@ -66,10 +68,14 @@ class NotificationVM extends BaseVM {
   }
 
   contentTap(int index) {
+    NotificationModel item = _notifications[index];
     _markThreadRead(index);
-    Toast.show(
-        'id of ${_notifications[index].id}, to do jump to notification detail page.',
-        context);
+    Navigator.push(context, MaterialPageRoute(builder: (_) {
+      return WebViewPage(
+        title: item.subject?.title ?? '',
+        requestUrl: item.subject?.url ?? '',
+      );
+    }));
   }
 
   _markThreadRead(int index) async {

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
 
 abstract class BasePage<S extends BaseState>

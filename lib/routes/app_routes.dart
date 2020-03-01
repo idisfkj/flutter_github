@@ -24,3 +24,5 @@ const AppRoutes followersRoute = AppRoutes('/followers',
     pageTitle: 'followers', pageType: PageType.followers);
 const AppRoutes followingRoute = AppRoutes('/following',
     pageTitle: 'following', pageType: PageType.following);
+
+const AppRoutes webViewRoute = AppRoutes('/webview', pageTitle: 'WebView');

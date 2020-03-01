@@ -4,8 +4,8 @@ import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
 import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:flutter_github/ui/followers/followers_vm.dart';
+import 'package:flutter_github/ui/webview/webview.dart';
 import 'package:flutter_github/widget/followers_item_view.dart';
-import 'package:toast/toast.dart';
 
 class FollowersPage extends BasePage {
   final String _pageType;
@@ -46,8 +46,9 @@ class _FollowersState extends BaseState<FollowersVM, FollowersPage> {
                 avatarUrl: item.avatar_url,
                 name: item.login,
                 tapCallback: () {
-                  Toast.show(
-                      'index of $index, todo jump followers detail', context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return WebViewPage(title: item.login, url: item.html_url);
+                  }));
                 },
               );
             }),
