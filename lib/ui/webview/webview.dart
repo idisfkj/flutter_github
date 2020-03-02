@@ -28,6 +28,7 @@ class _WebViewState extends BaseState<WebViewVM, WebViewPage> {
   @override
   PreferredSizeWidget createAppBar() {
     return AppBar(
+      backgroundColor: Colors.black87,
       title: Text(_title),
       centerTitle: true,
     );
