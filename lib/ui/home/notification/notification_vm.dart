@@ -47,13 +47,13 @@ class NotificationVM extends BaseVM {
         'since': since,
         'before': before
       });
-      if (isRefresh) {
-        _completer.complete('refresing completed');
-      }
       _notifications = List<NotificationModel>.from(
           response.data.map((x) => NotificationModel.fromJson(x)));
     } on DioError catch (e) {
       Toast.show('getNotification error: ${e.message}', context);
+    }
+    if (isRefresh) {
+      _completer.complete('refresing completed');
     }
     showLoading(false);
   }
