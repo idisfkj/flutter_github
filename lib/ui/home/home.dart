@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_github/ui/home/notification/notification.dart';
 import 'package:flutter_github/ui/home/search/search.dart';
 import 'package:flutter_github/ui/home/user/user.dart';
@@ -30,6 +31,16 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        child: AppBar(
+          brightness: Theme.of(context).platform == TargetPlatform.android
+              ? Brightness.dark
+              : Brightness.light,
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
+        preferredSize: Size.fromHeight(0),
+      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _tabPages,
