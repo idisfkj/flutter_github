@@ -56,3 +56,10 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 ```
+
+## 加入我们
+
+如需了解更多可以扫描下方二维码，加入我们：Android补给站。让我们与志同道合的你一起成长。
+
+![关注](https://github.com/idisfkj/android-api-analysis/raw/master/image/wx.jpg)
+
