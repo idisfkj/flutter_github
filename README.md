@@ -20,7 +20,8 @@ Flutter Github客户端，同时支持Android与IOS，支持账户密码与认�
 接下来的一段时间，我会对该项目中使用的技术进行逐一进行讲解，目的是为了对这个项目做全面的解析，不让读者产生一点疑惑。
 
 - [x] [Flutter StatelessWidget](https://juejin.im/post/5e62f280e51d4534ec0066b8)
-- [ ] Flutter StatefulWidget
+- [x] [Flutter StatefulWidget](https://juejin.im/post/5e6f871bf265da572a0d160c)
+- [ ] Flutter InheritedWidget
 - [ ] Flutter Navigator
 - [ ] Flutter MethodChannel
 - [ ] Flutter Dio
