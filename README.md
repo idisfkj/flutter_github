@@ -21,7 +21,7 @@ Flutter Github客户端，同时支持Android与IOS，支持账户密码与认�
 
 - [x] [Flutter StatelessWidget](https://juejin.im/post/5e62f280e51d4534ec0066b8)
 - [x] [Flutter StatefulWidget](https://juejin.im/post/5e6f871bf265da572a0d160c)
-- [ ] Flutter InheritedWidget
+- [x] [Flutter InheritedWidget](https://juejin.im/post/5edf695fe51d457b3f4a1854)
 - [ ] Flutter Navigator
 - [ ] Flutter MethodChannel
 - [ ] Flutter Dio
