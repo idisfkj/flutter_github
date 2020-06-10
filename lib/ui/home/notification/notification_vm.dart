@@ -6,7 +6,10 @@ import 'package:flutter_github/http/http.dart';
 import 'package:flutter_github/model/notification_model.dart';
 import 'package:flutter_github/ui/base/base_vm.dart';
 import 'package:flutter_github/ui/webview/webview.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+
+import 'notification_change_model.dart';
 
 class NotificationVM extends BaseVM {
   List<NotificationModel> _notifications;
@@ -67,9 +70,9 @@ class NotificationVM extends BaseVM {
     return ISSUE_CLOSED;
   }
 
-  contentTap(int index) {
+  contentTap(int index, BuildContext context) {
     NotificationModel item = _notifications[index];
-    _markThreadRead(index);
+    if(item.unread) _markThreadRead(index, context);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
       return WebViewPage(
         title: item.subject?.title ?? '',
@@ -78,7 +81,7 @@ class NotificationVM extends BaseVM {
     }));
   }
 
-  _markThreadRead(int index) async {
+  _markThreadRead(int index, BuildContext context) async {
     try {
       Response response =
           await dio.patch('/notifications/threads/${_notifications[index].id}');
@@ -86,7 +89,9 @@ class NotificationVM extends BaseVM {
           response.statusCode >= 200 &&
           response.statusCode < 300) {
         _notifications[index].unread = false;
-        notifyStateChanged();
+        // 使用Provider进行通知子widget进行更新，避免widget树全局更新
+        Provider.of<NotificationChangeModel>(context, listen: false).changeUnread(false);
+//        notifyStateChanged();
       }
     } on DioError catch (e) {
       Toast.show('makThreadRead error: ${e.message}', context);

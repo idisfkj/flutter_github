@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_github/model/notification_model.dart';
 import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
+import 'package:flutter_github/ui/home/notification/notification_change_model.dart';
+import 'package:provider/provider.dart';
 
 import 'notification_vm.dart';
 
@@ -27,13 +29,21 @@ class _NotificationPageState
           itemCount: vm.notifications?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
             final NotificationModel item = vm.notifications[index];
-            return GestureDetector(
-              onTap: () {
-                vm.contentTap(index);
-              },
-              child: Container(
-                color: item.unread ? Colors.white : Color.fromARGB(13, 0, 0, 0),
-                padding: EdgeInsets.only(left: 15.0, top: 10.0, right: 15.0),
+            return ChangeNotifierProvider<NotificationChangeModel>(
+              create: (context) => NotificationChangeModel(item.unread),
+              child: Consumer<NotificationChangeModel>(
+                builder: (context, item, child) => GestureDetector(
+                  onTap: () {
+                    vm.contentTap(index, context);
+                  },
+                  child: Container(
+                      color: item.unread
+                          ? Colors.white
+                          : Color.fromARGB(13, 0, 0, 0),
+                      padding:
+                          EdgeInsets.only(left: 15.0, top: 10.0, right: 15.0),
+                      child: child),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
