@@ -4,6 +4,8 @@ import 'package:flutter_github/model/notification_model.dart';
 import 'package:flutter_github/ui/base/base_page.dart';
 import 'package:flutter_github/ui/base/base_state.dart';
 import 'package:flutter_github/ui/home/notification/notification_change_model.dart';
+import 'package:flutter_github/ui/home/notification/test_gesture_detector.dart';
+import 'package:flutter_github/ui/home/notification/test_text.dart';
 import 'package:provider/provider.dart';
 
 import 'notification_vm.dart';
@@ -32,7 +34,7 @@ class _NotificationPageState
             return ChangeNotifierProvider<NotificationChangeModel>(
               create: (context) => NotificationChangeModel(item.unread),
               child: Consumer<NotificationChangeModel>(
-                builder: (context, item, child) => GestureDetector(
+                builder: (context, item, child) => TestGestureDetector(
                   onTap: () {
                     vm.contentTap(index, context);
                   },
@@ -47,7 +49,7 @@ class _NotificationPageState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
+                    TestText(
                       item.repository.fullName,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,

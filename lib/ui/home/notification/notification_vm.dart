@@ -73,12 +73,12 @@ class NotificationVM extends BaseVM {
   contentTap(int index, BuildContext context) {
     NotificationModel item = _notifications[index];
     if(item.unread) _markThreadRead(index, context);
-    Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return WebViewPage(
-        title: item.subject?.title ?? '',
-        requestUrl: item.subject?.url ?? '',
-      );
-    }));
+//    Navigator.push(context, MaterialPageRoute(builder: (_) {
+//      return WebViewPage(
+//        title: item.subject?.title ?? '',
+//        requestUrl: item.subject?.url ?? '',
+//      );
+//    }));
   }
 
   _markThreadRead(int index, BuildContext context) async {
