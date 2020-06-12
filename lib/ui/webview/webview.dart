@@ -5,25 +5,29 @@ import 'package:flutter_github/ui/webview/webview_vm.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends BasePage<_WebViewState> {
-  final String url;
-  final String requestUrl;
-  final String title;
-
-  WebViewPage({@required this.title, this.url = '', this.requestUrl = ''});
+  static const String ARGS_TITLE = "title";
+  static const String ARGS_REQUEST_URL = "request_Url";
+  static const String ARGS_URL = "url";
 
   @override
-  _WebViewState createBaseState() => _WebViewState(title, url, requestUrl);
+  _WebViewState createBaseState() => _WebViewState();
 }
 
 class _WebViewState extends BaseState<WebViewVM, WebViewPage> {
-  String _requestUrl;
   String _url;
   String _title;
   bool _canBack;
 
   WebViewController _controller;
 
-  _WebViewState(this._title, this._url, this._requestUrl);
+  @override
+  void didChangeDependencies() {
+    Map<String, String> arguments = ModalRoute.of(context).settings.arguments;
+    _title = arguments[WebViewPage.ARGS_TITLE];
+    _url = arguments[WebViewPage.ARGS_URL];
+    vm.requestUrl = arguments[WebViewPage.ARGS_REQUEST_URL];
+    super.didChangeDependencies();
+  }
 
   @override
   PreferredSizeWidget createAppBar() {
@@ -62,5 +66,5 @@ class _WebViewState extends BaseState<WebViewVM, WebViewPage> {
   }
 
   @override
-  WebViewVM createVM() => WebViewVM(context, _requestUrl);
+  WebViewVM createVM() => WebViewVM(context);
 }

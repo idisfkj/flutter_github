@@ -27,4 +27,6 @@ abstract class BaseVM {
   void init();
 
   void dispose() {}
+
+  void didChangeDependencies() {}
 }

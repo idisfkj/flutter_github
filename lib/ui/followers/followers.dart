@@ -47,8 +47,8 @@ class _FollowersState extends BaseState<FollowersVM, FollowersPage> {
                 name: item.login,
                 tapCallback: () {
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    return WebViewPage(title: item.login, url: item.html_url);
-                  }));
+                    return WebViewPage();
+                  }, settings: RouteSettings(arguments: {WebViewPage.ARGS_TITLE: item.login, WebViewPage.ARGS_URL: item.html_url})));
                 },
               );
             }),

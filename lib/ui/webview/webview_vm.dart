@@ -7,19 +7,27 @@ import 'package:toast/toast.dart';
 
 class WebViewVM extends BaseVM {
   String _requestUrl;
+
+  set requestUrl(String requestUrl) {
+    _requestUrl = requestUrl;
+  }
+
   String _htmlUrl;
 
   String get htmlUrl => _htmlUrl;
 
-  WebViewVM(BuildContext context, this._requestUrl) : super(context);
+  WebViewVM(BuildContext context) : super(context);
 
   @override
-  void init() {
+  void didChangeDependencies() {
     loadingShowContent(true);
-    if (!(_requestUrl?.isEmpty ?? true)) {
+    if (!(_requestUrl?.isEmpty ?? true) && ModalRoute.of(context).isActive) {
       _getNotificationRequestUrl();
     }
   }
+
+  @override
+  void init() {}
 
   _getNotificationRequestUrl() async {
     try {
@@ -27,8 +35,7 @@ class WebViewVM extends BaseVM {
         _requestUrl = _requestUrl.substring(API_GITHUB_BASE_URL.length + 1);
       }
       Response response = await dio.get('/$_requestUrl');
-      _htmlUrl =
-          NotificationRequestUrlModel.fromJson(response.data)?.html_url ?? '';
+      _htmlUrl = NotificationRequestUrlModel.fromJson(response.data)?.html_url ?? '';
       notifyStateChanged();
     } on DioError catch (e) {
       Toast.show('getNotificationRequestUrl error ${e.message}', context);

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,21 +38,10 @@ class NotificationVM extends BaseVM {
     });
   }
 
-  _getNotification(
-      {bool isRefresh = false,
-      bool all = true,
-      bool participating = false,
-      String since = '',
-      String before = ''}) async {
+  _getNotification({bool isRefresh = false, bool all = true, bool participating = false, String since = '', String before = ''}) async {
     try {
-      Response response = await dio.get('/notifications', queryParameters: {
-        'all': true,
-        'participating': false,
-        'since': since,
-        'before': before
-      });
-      _notifications = List<NotificationModel>.from(
-          response.data.map((x) => NotificationModel.fromJson(x)));
+      Response response = await dio.get('/notifications', queryParameters: {'all': true, 'participating': false, 'since': since, 'before': before});
+      _notifications = List<NotificationModel>.from(response.data.map((x) => NotificationModel.fromJson(x)));
     } on DioError catch (e) {
       Toast.show('getNotification error: ${e.message}', context);
     }
@@ -72,22 +62,21 @@ class NotificationVM extends BaseVM {
 
   contentTap(int index, BuildContext context) {
     NotificationModel item = _notifications[index];
-    if(item.unread) _markThreadRead(index, context);
-    Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return WebViewPage(
-        title: item.subject?.title ?? '',
-        requestUrl: item.subject?.url ?? '',
-      );
-    }));
+    if (item.unread) _markThreadRead(index, context);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) {
+              return WebViewPage();
+            },
+            settings: RouteSettings(
+                arguments: {WebViewPage.ARGS_TITLE: item.subject?.title ?? '', WebViewPage.ARGS_REQUEST_URL: item.subject?.url ?? ''})));
   }
 
   _markThreadRead(int index, BuildContext context) async {
     try {
-      Response response =
-          await dio.patch('/notifications/threads/${_notifications[index].id}');
-      if (response != null &&
-          response.statusCode >= 200 &&
-          response.statusCode < 300) {
+      Response response = await dio.patch('/notifications/threads/${_notifications[index].id}');
+      if (response != null && response.statusCode >= 200 && response.statusCode < 300) {
         _notifications[index].unread = false;
         // 使用Provider进行通知子widget进行更新，避免widget树全局更新
         Provider.of<NotificationChangeModel>(context, listen: false).changeUnread(false);

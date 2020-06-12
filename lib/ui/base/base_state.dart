@@ -43,6 +43,12 @@ abstract class BaseState<VM extends BaseVM, T extends StatefulWidget>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _vm.didChangeDependencies();
+  }
+
+  @override
   void initState() {
     super.initState();
     _vm = createVM()

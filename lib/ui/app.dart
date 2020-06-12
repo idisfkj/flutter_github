@@ -30,7 +30,7 @@ class _GithubAppState extends State<GithubApp> {
             FollowersPage(followersRoute.pageType),
         followingRoute.routeName: (BuildContext context) =>
             FollowersPage(followingRoute.pageType),
-        webViewRoute.routeName: (BuildContext context) => WebViewPage(title: '',),
+        webViewRoute.routeName: (BuildContext context) => WebViewPage(),
       },
     );
   }

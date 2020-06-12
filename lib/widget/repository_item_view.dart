@@ -18,8 +18,8 @@ class RepositoryItemView extends StatelessWidget {
   _goToRepositoryDetail(BuildContext context) {
     return () {
       Navigator.push(context, MaterialPageRoute(builder: (_) {
-        return WebViewPage(title: _item.name, url: _item.htmlUrl);
-      }));
+        return WebViewPage();
+      }, settings: RouteSettings(arguments: { WebViewPage.ARGS_TITLE: _item.name, WebViewPage.ARGS_URL: _item.htmlUrl })));
     };
   }
 
