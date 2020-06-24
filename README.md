@@ -19,11 +19,11 @@ Flutter Github客户端，同时支持Android与IOS，支持账户密码与认�
 ### Doing
 接下来的一段时间，我会对该项目中使用的技术进行逐一进行讲解，目的是为了对这个项目做全面的解析，不让读者产生一点疑惑。
 
-- [x] [Flutter StatelessWidget](https://juejin.im/post/5e62f280e51d4534ec0066b8)
-- [x] [Flutter StatefulWidget](https://juejin.im/post/5e6f871bf265da572a0d160c)
-- [x] [Flutter InheritedWidget](https://juejin.im/post/5edf695fe51d457b3f4a1854)
-- [x] [Flutter Provider](https://juejin.im/post/5ef09403f265da02c6343319)
-- [ ] Flutter Navigator
+- [x] [Flutter StatelessWidget](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484222&idx=1&sn=d11adb51b2488310d0e99e85edad3929&chksm=e8e0faaedf9773b89b3db238ea978ab285055456ef127e550cad576cfe43e6ee646f3fb45b8e&token=288527406&lang=zh_CN#rd)
+- [x] [Flutter StatefulWidget](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484232&idx=1&sn=008d1782cefdd8555f2b95681b33f27a&chksm=e8e0fad8df9773ce71e2914bf4bb8510d8e6b16911cf3aef45eca95a939e0c297a162b061545&token=288527406&lang=zh_CN#rd)
+- [x] [Flutter InheritedWidget](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484244&idx=1&sn=08aadb3de199382bce2c9cd8ebb9fa1b&chksm=e8e0fac4df9773d2557bbe430577000814edb33fbb0ffb6060bd927056019b5ae50790afa3bd&token=288527406&lang=zh_CN#rd)
+- [x] [Flutter Provider](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484324&idx=1&sn=0f0fbf7af29369de207fae9188a2dcf8&chksm=e8e0fa34df977322113a3d47296a2a21a775fad419df8c802b42a33d1a8884bf68316b351eb0&token=288527406&lang=zh_CN#rd)
+- [x] [Flutter Navigator](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484403&idx=1&sn=469720c4cfadba6275756493209dec84&chksm=e8e0fa63df9773751eccc7233916be35e1d2edf3f8b6cb826ba30a54fe8d911fa728ee47da09&token=288527406&lang=zh_CN#rd)
 - [ ] Flutter MethodChannel
 - [ ] Flutter Dio
 - [ ] Flutter Dialog
