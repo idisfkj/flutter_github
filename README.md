@@ -25,7 +25,7 @@ Flutter Github客户端，同时支持Android与IOS，支持账户密码与认�
 - [x] [Flutter InheritedWidget](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484244&idx=1&sn=08aadb3de199382bce2c9cd8ebb9fa1b&chksm=e8e0fac4df9773d2557bbe430577000814edb33fbb0ffb6060bd927056019b5ae50790afa3bd&token=288527406&lang=zh_CN#rd)
 - [x] [Flutter Provider](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484324&idx=1&sn=0f0fbf7af29369de207fae9188a2dcf8&chksm=e8e0fa34df977322113a3d47296a2a21a775fad419df8c802b42a33d1a8884bf68316b351eb0&token=288527406&lang=zh_CN#rd)
 - [x] [Flutter Navigator](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484403&idx=1&sn=469720c4cfadba6275756493209dec84&chksm=e8e0fa63df9773751eccc7233916be35e1d2edf3f8b6cb826ba30a54fe8d911fa728ee47da09&token=288527406&lang=zh_CN#rd)
-- [ ] Flutter MethodChannel
+- [x] [Flutter MethodChannel](https://mp.weixin.qq.com/s?__biz=MzIzNTc5NDY4Nw==&mid=2247484504&idx=1&sn=78375eb5172ab358c7f0d01836927b71&chksm=e8e0fdc8df9774de74df60877d2d57a4ddf3a474e7fcd82824221dc099f53aa8b08d97aae1da&token=1979725139&lang=zh_CN#rd)
 - [ ] Flutter Dio
 - [ ] Flutter Dialog
 - [ ] Flutter MSVM
